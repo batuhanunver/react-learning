@@ -2,16 +2,18 @@ import React, { Component } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { Logic } from './logic';
 import q1 from '../questions/q1.json';
-import { CustomizedButton } from './customizedButtons.js';
 import { ButtonsParent } from './buttonsParent.js';
+import { NextButton } from './nextButton.js';
+
 export class OtherView extends Component {
-
-
   constructor(props) {
     super(props);
     this.yesAnswers = 0;
     this.noAnswers = 0;
+    this.noOfQuestions = 0;
+    this.result = '';
     this.answers = {};
+    this.isQuestionsOk = '';
     // console.log(Questions.questions[0].id)
     // console.log(Questions.questions[0].text)
     //  console.log(Questions.questions[0].yesno)
@@ -41,12 +43,10 @@ export class OtherView extends Component {
    * @memberOf OtherView
    */
   nextPart(qNum) {
-
-    if(qNum==='yes'){
-      qNum=this.nextQuestionYes;
-    }
-    else{
-      qNum=this.nextQuestionNo;
+    if (qNum === 'yes') {
+      qNum = this.nextQuestionYes;
+    } else {
+      qNum = this.nextQuestionNo;
     }
     this.first = q1.questions.filter(q => q.id === qNum)[0];
 
@@ -84,10 +84,26 @@ export class OtherView extends Component {
   getAnswer(answer, id) {
     this.answers[id] = answer;
     console.log(this.answers);
+    this.isQuestionsOk = 'yes';
   }
 
   executeGroup() {
-    console.log('executegroup', this.answers);
+    this.yesAnswers = 0;
+    this.noAnswers = 0;
+    for (const i in this.answers) {
+      if (this.answers[i] === 'yes') {
+        this.yesAnswers++;
+      } else if (this.answers[i] === 'no') {
+        this.noAnswers++;
+      }
+    }
+    if (this.yesAnswers > this.noAnswers) {
+      this.result = 'MOST_OFTEN_YES';
+    } else if (this.noAnswers > this.yesAnswers) {
+      this.result = 'MOST_OFTEN_NO';
+    }
+    console.log('yes', this.yesAnswers);
+    console.log('no', this.noAnswers);
   }
 
   renderYesNo() {
@@ -103,6 +119,7 @@ export class OtherView extends Component {
 
   renderGroup() {
     const keys = Object.keys(this.first.group.questions);
+    this.noOfQuestions = keys.length;
     return (
       <ScrollView>
         {
@@ -124,14 +141,13 @@ export class OtherView extends Component {
                   alignItems: 'center',
                 }}
               >
-                <CustomizedButton buttonName="Yes" onClick={() => this.getAnswer('yes', (q1.questions.filter(q => q.id === v)[0]).id)} />
-                <CustomizedButton buttonName="No" onClick={() => this.getAnswer('no', (q1.questions.filter(q => q.id === v)[0]).id)} />
+                <ButtonsParent onclick={answer => this.getAnswer(answer, (q1.questions.filter(q => q.id === v)[0]).id)} selectionChanged={(newSelection) => { console.log('selection changed to ', newSelection); }} />
               </View>
             </View>
           ),
           )
         }
-        <CustomizedButton buttonName="Next" onClick={() => this.executeGroup()} />
+        <NextButton onClick={() => this.executeGroup()} />
       </ScrollView>
     );
   }

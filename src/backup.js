@@ -147,3 +147,9 @@ export class OtherView extends Component {
     return this.renderEmpty();
   }
 }
+
+
+//eski yesno grup butonları
+//  <CustomizedButton buttonName="Yes" onClick={() => this.getAnswer('yes', (q1.questions.filter(q => q.id === v)[0]).id)} />
+//                <CustomizedButton buttonName="No" onClick={() => this.getAnswer('no', (q1.questions.filter(q => q.id === v)[0]).id)} />
+

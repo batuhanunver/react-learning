@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Platform, TouchableNativeFeedback, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 
 export class CustomizedButton extends Component {
@@ -7,7 +7,7 @@ export class CustomizedButton extends Component {
   static propTypes = {
     onClick: React.PropTypes.func.isRequired,
     buttonName: React.PropTypes.string.isRequired,
-    isSelected: React.PropTypes.bool.isRequired,
+   // isSelected: React.PropTypes.bool.isRequired,
   }
 
   state = { pressStatus: false };

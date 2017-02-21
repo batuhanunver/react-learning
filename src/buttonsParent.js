@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Platform, TouchableNativeFeedback, TouchableOpacity, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { CustomizedButton } from './customizedButtons.js';
 
 export class ButtonsParent extends Component {
@@ -10,9 +10,11 @@ export class ButtonsParent extends Component {
 
   state = {
     selectedOne: '',
+    showNext: '',
   }
 
   selectButton(name) {
+    this.state.showNext = 'yes';
     this.setState({ selectedOne: name });
     this.props.selectionChanged(name);
     this.props.onclick(name);
